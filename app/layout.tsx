@@ -1,40 +1,44 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
-import "./globals.css"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-import { Providers } from "./providers"
-import { cn } from "@/lib/utils"
-import { AnimatedGradientBackground } from "@/components/animated-gradient-background"
-import { ScrollProgress } from "@/components/scroll-progress"
-import { Suspense } from "react"
-import { Analytics } from "@/components/analytics"
+import type React from "react";
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { Providers } from "./providers";
+import { cn } from "@/lib/utils";
+import { AnimatedGradientBackground } from "@/components/animated-gradient-background";
+import { ScrollProgress } from "@/components/scroll-progress";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-})
+});
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-heading",
-})
+});
 
 export const metadata: Metadata = {
   title: "Prism | Modern Blogging Platform",
   description: "A modern blogging platform for sharing ideas and stories",
-    generator: 'v0.dev'
-}
+  generator: "v0.dev",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen font-sans antialiased", inter.variable, playfair.variable)}>
+      <body
+        className={cn(
+          "min-h-screen font-sans antialiased",
+          inter.variable,
+          playfair.variable
+        )}
+      >
         <Providers>
           <AnimatedGradientBackground />
           <ScrollProgress />
@@ -43,11 +47,8 @@ export default function RootLayout({
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
         </Providers>
       </body>
     </html>
-  )
+  );
 }

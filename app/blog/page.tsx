@@ -1,50 +1,55 @@
-"use client"
+"use client";
 
-import { getAllPosts } from "@/lib/blog-data"
-import Link from "next/link"
-import Image from "next/image"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { CalendarIcon, Clock, ArrowRight, Search, Filter } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { getAllPosts } from "@/lib/blog-data";
+import Link from "next/link";
+import Image from "next/image";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CalendarIcon, Clock, ArrowRight, Search, Filter } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function BlogPage() {
-  const allPosts = getAllPosts()
-  const [posts, setPosts] = useState(allPosts)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [mounted, setMounted] = useState(false)
+  const allPosts = getAllPosts();
+  const [posts, setPosts] = useState(allPosts);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   // Get unique categories
-  const categories = Array.from(new Set(allPosts.map((post) => post.category)))
+  const categories = Array.from(new Set(allPosts.map((post) => post.category)));
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    let filtered = allPosts
+    let filtered = allPosts;
 
     // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(
         (post) =>
           post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
     // Filter by category
     if (selectedCategory) {
-      filtered = filtered.filter((post) => post.category === selectedCategory)
+      filtered = filtered.filter((post) => post.category === selectedCategory);
     }
 
-    setPosts(filtered)
-  }, [searchTerm, selectedCategory, allPosts])
+    setPosts(filtered);
+  }, [searchTerm, selectedCategory, allPosts]);
 
   if (!mounted) {
     return (
@@ -54,13 +59,16 @@ export default function BlogPage() {
           <div className="max-w-4xl mx-auto">
             <div className="space-y-8">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-[200px] rounded-xl bg-muted animate-pulse" />
+                <div
+                  key={i}
+                  className="h-[200px] rounded-xl bg-muted animate-pulse"
+                />
               ))}
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -88,7 +96,8 @@ export default function BlogPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Discover thought-provoking articles on technology, lifestyle, productivity, and more.
+              Discover thought-provoking articles on technology, lifestyle,
+              productivity, and more.
             </motion.p>
             <motion.div
               className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
@@ -115,7 +124,11 @@ export default function BlogPage() {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
                     onClick={() => setSelectedCategory(null)}
-                    className={!selectedCategory ? "bg-accent text-accent-foreground" : ""}
+                    className={
+                      !selectedCategory
+                        ? "bg-accent text-accent-foreground"
+                        : ""
+                    }
                   >
                     All Categories
                   </DropdownMenuItem>
@@ -123,7 +136,11 @@ export default function BlogPage() {
                     <DropdownMenuItem
                       key={category}
                       onClick={() => setSelectedCategory(category)}
-                      className={selectedCategory === category ? "bg-accent text-accent-foreground" : ""}
+                      className={
+                        selectedCategory === category
+                          ? "bg-accent text-accent-foreground"
+                          : ""
+                      }
                     >
                       {category}
                     </DropdownMenuItem>
@@ -142,13 +159,15 @@ export default function BlogPage() {
             {posts.length === 0 ? (
               <div className="text-center py-12">
                 <h3 className="text-xl font-medium mb-2">No posts found</h3>
-                <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
+                <p className="text-muted-foreground">
+                  Try adjusting your search or filter criteria
+                </p>
                 <Button
                   variant="outline"
                   className="mt-4"
                   onClick={() => {
-                    setSearchTerm("")
-                    setSelectedCategory(null)
+                    setSearchTerm("");
+                    setSelectedCategory(null);
                   }}
                 >
                   Reset filters
@@ -166,7 +185,10 @@ export default function BlogPage() {
                   >
                     <Card className="overflow-hidden border-none shadow-lg card-hover bg-background/50 backdrop-blur-sm">
                       <div className="md:flex">
-                        <Link href={`/blog/${post.slug}`} className="block md:w-2/5">
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="block md:w-2/5"
+                        >
                           <div className="relative h-56 md:h-full w-full">
                             <Image
                               src={post.coverImage || "/placeholder.svg"}
@@ -180,7 +202,7 @@ export default function BlogPage() {
                         <div className="md:w-3/5">
                           <CardContent className="pt-6">
                             <div className="flex flex-wrap items-center gap-3 mb-3">
-                              <Badge variant="accent">{post.category}</Badge>
+                              <Badge variant="default">{post.category}</Badge>
                               <div className="flex items-center text-xs text-muted-foreground">
                                 <CalendarIcon className="mr-1 h-3 w-3" />
                                 {post.date}
@@ -190,12 +212,17 @@ export default function BlogPage() {
                                 {post.readingTime}
                               </div>
                             </div>
-                            <Link href={`/blog/${post.slug}`} className="block group">
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="block group"
+                            >
                               <h2 className="text-2xl font-bold mb-2 group-hover:text-accent transition-colors">
                                 {post.title}
                               </h2>
                             </Link>
-                            <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                            <p className="text-muted-foreground mb-4">
+                              {post.excerpt}
+                            </p>
                           </CardContent>
                           <CardFooter className="border-t pt-4 flex items-center justify-between">
                             <div className="flex items-center">
@@ -207,10 +234,20 @@ export default function BlogPage() {
                                   className="object-cover"
                                 />
                               </div>
-                              <span className="text-sm font-medium">{post.author.name}</span>
+                              <span className="text-sm font-medium">
+                                {post.author.name}
+                              </span>
                             </div>
-                            <Button variant="ghost" size="sm" className="group" asChild>
-                              <Link href={`/blog/${post.slug}`} className="inline-flex items-center">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="group"
+                              asChild
+                            >
+                              <Link
+                                href={`/blog/${post.slug}`}
+                                className="inline-flex items-center"
+                              >
                                 Read more
                                 <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
                               </Link>
@@ -227,5 +264,5 @@ export default function BlogPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

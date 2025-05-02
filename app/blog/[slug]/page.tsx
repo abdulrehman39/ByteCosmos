@@ -1,35 +1,42 @@
-"use client"
+"use client";
 
-import { getPostBySlug } from "@/lib/blog-data"
-import { notFound } from "next/navigation"
-import Image from "next/image"
-import { CalendarIcon, Clock, ChevronLeft, Share2, Bookmark, Heart } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { getPostBySlug } from "@/lib/blog-data";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import {
+  CalendarIcon,
+  Clock,
+  ChevronLeft,
+  Share2,
+  Bookmark,
+  Heart,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const [mounted, setMounted] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const [liked, setLiked] = useState(false)
-  const [bookmarked, setBookmarked] = useState(false)
+  const [mounted, setMounted] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
+    setMounted(true);
 
     const handleScroll = () => {
-      const totalHeight = document.body.scrollHeight - window.innerHeight
-      const progress = (window.scrollY / totalHeight) * 100
-      setScrollProgress(progress)
-    }
+      const totalHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      setScrollProgress(progress);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const post = getPostBySlug(params.slug)
+  const post = getPostBySlug(params.slug);
 
   if (!mounted) {
     return (
@@ -46,11 +53,11 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -114,7 +121,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 {post.readingTime}
               </div>
 
-              <Badge variant="accent">{post.category}</Badge>
+              <Badge variant="default">{post.category}</Badge>
             </motion.div>
           </div>
         </div>
@@ -160,7 +167,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               className={`rounded-full ${bookmarked ? "text-accent" : ""}`}
               onClick={() => setBookmarked(!bookmarked)}
             >
-              <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-current" : ""}`} />
+              <Bookmark
+                className={`h-5 w-5 ${bookmarked ? "fill-current" : ""}`}
+              />
               <span className="sr-only">Bookmark</span>
             </Button>
             <Button variant="ghost" size="icon" className="rounded-full">
@@ -183,7 +192,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   >
                     {paragraph.substring(2)}
                   </motion.h1>
-                )
+                );
               } else if (paragraph.startsWith("## ")) {
                 return (
                   <motion.h2
@@ -196,7 +205,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   >
                     {paragraph.substring(3)}
                   </motion.h2>
-                )
+                );
               } else if (paragraph.startsWith("### ")) {
                 return (
                   <motion.h3
@@ -209,7 +218,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   >
                     {paragraph.substring(4)}
                   </motion.h3>
-                )
+                );
               } else if (paragraph.startsWith("- ")) {
                 return (
                   <motion.li
@@ -222,9 +231,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   >
                     {paragraph.substring(2)}
                   </motion.li>
-                )
+                );
               } else if (paragraph.trim() === "") {
-                return <br key={index} />
+                return <br key={index} />;
               } else {
                 return (
                   <motion.p
@@ -237,7 +246,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   >
                     {paragraph}
                   </motion.p>
-                )
+                );
               }
             })}
           </div>
@@ -259,7 +268,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               className={`rounded-full ${bookmarked ? "text-accent" : ""}`}
               onClick={() => setBookmarked(!bookmarked)}
             >
-              <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-current" : ""}`} />
+              <Bookmark
+                className={`h-5 w-5 ${bookmarked ? "fill-current" : ""}`}
+              />
               <span className="sr-only">Bookmark</span>
             </Button>
             <Button variant="ghost" size="icon" className="rounded-full">
@@ -288,7 +299,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               <div>
                 <h3 className="text-lg font-semibold">{post.author.name}</h3>
                 <p className="text-muted-foreground">
-                  Writer and content creator passionate about {post.category.toLowerCase()} topics.
+                  Writer and content creator passionate about{" "}
+                  {post.category.toLowerCase()} topics.
                 </p>
               </div>
             </div>
@@ -302,12 +314,24 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <div className="text-sm text-muted-foreground mb-4 sm:mb-0">Share this article</div>
+            <div className="text-sm text-muted-foreground mb-4 sm:mb-0">
+              Share this article
+            </div>
             <div className="flex gap-4">
-              <Button variant="outline" size="sm" className="rounded-full" asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full"
+                asChild
+              >
                 <Link href="/blog">More articles</Link>
               </Button>
-              <Button size="sm" variant="accent" className="rounded-full" asChild>
+              <Button
+                size="sm"
+                variant="default"
+                className="rounded-full"
+                asChild
+              >
                 <Link href="/contact">Contact author</Link>
               </Button>
             </div>
@@ -315,5 +339,5 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
       </article>
     </div>
-  )
+  );
 }

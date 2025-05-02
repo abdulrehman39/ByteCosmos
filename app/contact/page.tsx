@@ -1,17 +1,25 @@
-"use client"
+// app/contact/page.tsx
+"use client";
 
-import ContactForm from "@/components/contact-form"
-import { Mail, MapPin, Phone, MessageSquare, Users, Headphones } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react";
+import ContactForm from "@/components/contact-form";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  MessageSquare,
+  Users,
+  Headphones,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 export default function ContactPage() {
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
     return (
@@ -22,7 +30,10 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-1 space-y-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-32 rounded-xl bg-muted animate-pulse" />
+                  <div
+                    key={i}
+                    className="h-32 rounded-xl bg-muted animate-pulse"
+                  />
                 ))}
               </div>
               <div className="lg:col-span-2">
@@ -32,7 +43,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   const container = {
@@ -44,12 +55,12 @@ export default function ContactPage() {
         delayChildren: 0.3,
       },
     },
-  }
+  };
 
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { type: "spring" } },
-  }
+  };
 
   return (
     <div className="pt-16">
@@ -76,7 +87,8 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Have a question, suggestion, or just want to say hello? We'd love to hear from you.
+              Have a question, suggestion, or just want to say hello? We'd love
+              to hear from you.
             </motion.p>
           </div>
         </div>
@@ -88,7 +100,12 @@ export default function ContactPage() {
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Contact Info */}
-              <motion.div className="lg:col-span-1 space-y-6" variants={container} initial="hidden" animate="show">
+              <motion.div
+                className="lg:col-span-1 space-y-6"
+                variants={container}
+                initial="hidden"
+                animate="show"
+              >
                 <motion.div variants={item}>
                   <Card className="border-none shadow-lg card-hover bg-background/50 backdrop-blur-sm">
                     <CardContent className="p-6 flex items-start gap-4">
@@ -97,8 +114,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-medium text-lg mb-2">Email</h3>
-                        <p className="text-muted-foreground">contact@prism.io</p>
-                        <p className="text-muted-foreground">support@prism.io</p>
+                        <p className="text-muted-foreground">
+                          contact@prism.io
+                        </p>
+                        <p className="text-muted-foreground">
+                          support@prism.io
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -112,8 +133,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-medium text-lg mb-2">Phone</h3>
-                        <p className="text-muted-foreground">+1 (555) 123-4567</p>
-                        <p className="text-muted-foreground">Mon-Fri, 9am-5pm PST</p>
+                        <p className="text-muted-foreground">
+                          +1 (555) 123-4567
+                        </p>
+                        <p className="text-muted-foreground">
+                          Mon-Fri, 9am-5pm PST
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -127,8 +152,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-medium text-lg mb-2">Location</h3>
-                        <p className="text-muted-foreground">123 Market Street</p>
-                        <p className="text-muted-foreground">San Francisco, CA 94105</p>
+                        <p className="text-muted-foreground">
+                          123 Market Street
+                        </p>
+                        <p className="text-muted-foreground">
+                          San Francisco, CA 94105
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -144,8 +173,14 @@ export default function ContactPage() {
               >
                 <Card className="border-none shadow-lg bg-background/50 backdrop-blur-sm">
                   <CardContent className="p-8">
-                    <h2 className="text-2xl font-semibold mb-6">Send us a message</h2>
-                    <ContactForm />
+                    <h2 className="text-2xl font-semibold mb-6">
+                      Send us a message
+                    </h2>
+
+                    {/* Suspense wrapper for ContactForm */}
+                    <Suspense fallback={<div>Loading contact form...</div>}>
+                      <ContactForm />
+                    </Suspense>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -158,7 +193,9 @@ export default function ContactPage() {
       <section className="py-8 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-heading font-bold text-center mb-12">Other Ways to Connect</h2>
+            <h2 className="text-2xl font-heading font-bold text-center mb-12">
+              Other Ways to Connect
+            </h2>
 
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-8"
@@ -190,7 +227,9 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <h3 className="text-lg font-medium mb-2">Community Forum</h3>
-                  <p className="text-muted-foreground mb-4">Join discussions with other users and our team members.</p>
+                  <p className="text-muted-foreground mb-4">
+                    Join discussions with other users and our team members.
+                  </p>
                   <p className="text-sm text-accent">Active Community</p>
                 </Card>
               </motion.div>
@@ -214,5 +253,5 @@ export default function ContactPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
