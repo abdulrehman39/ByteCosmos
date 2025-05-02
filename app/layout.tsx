@@ -1,3 +1,5 @@
+"use client";
+
 import type React from "react";
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
@@ -8,6 +10,7 @@ import { Providers } from "./providers";
 import { cn } from "@/lib/utils";
 import { AnimatedGradientBackground } from "@/components/animated-gradient-background";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,9 +23,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Prism | Modern Blogging Platform",
+  title: "ByteCosmos | Modern Blogging Platform",
   description: "A modern blogging platform for sharing ideas and stories",
-  generator: "v0.dev",
+  // generator: "v0.dev",
 };
 
 export default function RootLayout({
@@ -48,6 +51,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
